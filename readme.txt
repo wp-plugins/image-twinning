@@ -6,6 +6,10 @@ Tested up to: 3.9
 License: GPL
 License URI: http://www.gnu.org/copyleft/gpl.html
 
+Plugin for reenactment of famous paintings.
+
+== Description ==
+
 An image says more than a thousand words, but what about two images? We bet they say more than ten thousand words!
 
 Examples are recreated and reenacted images with popular or famous originals, but also the comparison of doubles.
