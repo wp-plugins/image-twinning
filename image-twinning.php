@@ -73,7 +73,7 @@ function handle_form_action() {
 	update_post_meta( $post->ID, 'file1', $target_path1 );
 	$target_path2 = $base_path . sanitize_file_name($_POST['file2']);
 	update_post_meta( $post->ID, 'file2', $target_path2 );
-	if(is_numeric()){ $x = $_POST['x']; }
+	if(is_numeric($_POST['x'])){ $x = $_POST['x']; }
 	else { $x = 0; }
 	if(is_numeric($_POST['y'])) { $y = $_POST['y'];}
 	else { $y = 0; }
