@@ -12,15 +12,17 @@ Plugin for reenactment of famous paintings.
 
 An image says more than a thousand words, but what about two images? We bet they say more than ten thousand words!
 
-There are popular and funny websites nowadays supporting reenactments of famous cultural images http://www.telegraph.co.uk/culture/photography/10834099/Tired-of-looking-at-paintings-Now-you-can-get-inside-them.html or identification of doubles for famous persons 
-http://www.hellomagazine.com/celebrities/gallery/201207178683/celebrities-that-look-alike/6/
+There are popular and funny websites nowadays supporting reenactments of famous cultural images [Get Inside Paintings](http://www.telegraph.co.uk/culture/photography/10834099/Tired-of-looking-at-paintings-Now-you-can-get-inside-them.html) or identification of doubles for famous persons 
+[Celebrities Look Alike](http://www.hellomagazine.com/celebrities/gallery/201207178683/celebrities-that-look-alike/6/)
 You can use this Image Twinning plugin to integrate similar functionality in your applications!
 
-<img src="federer-quentin.jpg"><img src="gogh-self.jpg">
+Examples:
+* [Federer and Tarantino](federer-quentin.jpg)
+* [Van Gogh Selfportrait](gogh-self.jpg)
 
 Feel free to download this plugin and deploy it in your own environment. We are very interested in hearing from you, especially if you work on new ideas or scenarios for the usage of our plugin!
 
-You can also test our sample integration at http://62.218.164.176/wordpress/
+You can also test our sample integration at [Image Twinning Demo](http://62.218.164.176/wordpress/).
 
 Your image-twinning team.
 
