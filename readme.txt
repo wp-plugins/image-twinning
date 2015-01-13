@@ -38,3 +38,5 @@ Copy to wp-content directory.
 10. If image frame has been selected, the frame image and the top right corner image need to be defined.
 11. Click "Load". 
 
+== Screenshots ==
+1. Resulting page of an image twinning action.
