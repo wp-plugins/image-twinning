@@ -17,8 +17,8 @@ There are popular and funny websites nowadays supporting reenactments of famous 
 You can use this Image Twinning plugin to integrate similar functionality in your applications!
 
 <ul>
-<li><a href="images/federer-quentin.jpg">Federer and Tarantino</a></li>
-<li><a href="images/gogh-self.jpg">Van Gogh Selfportrait</a></li>
+<li><a href="http://www.hellomagazine.com/imagenes/celebrities/201207178683/celebrities-that-look-alike/0-42-458/federer-quentin--a.jpg">Federer and Tarantino</a></li>
+<li><a href="http://i.telegraph.co.uk/multimedia/archive/02912/gogh-self_2912733k.jpg">Van Gogh Selfportrait</a></li>
 </ul>
 
 Feel free to download this plugin and deploy it in your own environment. We are very interested in hearing from you, especially if you work on new ideas or scenarios for the usage of our plugin!
