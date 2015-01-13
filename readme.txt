@@ -16,10 +16,8 @@ There are popular and funny websites nowadays supporting reenactments of famous 
 [Celebrities Look Alike](http://www.hellomagazine.com/celebrities/gallery/201207178683/celebrities-that-look-alike/6/)
 You can use this Image Twinning plugin to integrate similar functionality in your applications!
 
-<ul>
-<li> <img src="images/federer-quentin.jpg"></li>
-<li> <img src="images/gogh-self.jpg"></li>
-</ul>
+<img src="images/federer-quentin.jpg">
+<img src="images/gogh-self.jpg">
 
 Feel free to download this plugin and deploy it in your own environment. We are very interested in hearing from you, especially if you work on new ideas or scenarios for the usage of our plugin!
 
