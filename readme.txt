@@ -1,5 +1,5 @@
 === Image Twinning ===
-Contributors: bozicb, Sergiu Gordea
+Contributors: bozicb, gsergiu
 Tags: image, images, posts, comments, reenactment, vangoyourself, annotation, tagging, recreation, twinning, thumbnails, wp plugin
 Requires at least: 3.9
 Tested up to: 3.9
