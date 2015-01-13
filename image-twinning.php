@@ -43,6 +43,7 @@ function setup_page() {
 		<tr><td>Name of artist:</td><td><input type='text' name='txt_artist'></td></tr>
 		<tr><td>Date of painting:</td><td><input type='text' name='txt_date'></td></tr>
 		<tr><td>Short URL:</td><td><input type='text' name='txt_shorturl'></td></tr> 
+		<tr><td>Categorization</td><td><input type='text' name='category'></td></tr> 
 		</table>
 		<hr>
 		Orientation*:<br>
@@ -277,7 +278,7 @@ function handle_form_action() {
 		'post_content'  => '<img src='.$resulturi.'><img src='.$resultthumburi.'><br><br>' . '<a href="' . $resulturi . '">Download Twinned Image</a><br>' . '<a href="' . $resultthumburi . '">Download Twinned Thumbnail</a>',
 		'post_status'   => 'publish',
 		'post_author'   => 1,
-		'post_category' => array(8,39)
+		'post_category' => $_POST['category']
 	);
 
 	// Insert the post into the database
