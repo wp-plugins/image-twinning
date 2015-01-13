@@ -4,74 +4,140 @@ Plugin Name: Image Twinning
 Description: Plugin for reenactment of images.
 Version: 1.0.0
 Author: Bojan Božić and Sergiu Gordea
-Author URI: http://www.unet.univie.ac.at/~a0963121
+Author URI: http://homepage.univie.ac.at/bojan.bozic
 */
 
 /**
  * Creates an input form for image uploads
  */
-function change_title($post_object) {
-	$post_object->post_title = "Image Twinning";
+
+function setup_page() {
+	global $wpdb;
+	
+	$admin_url = get_admin_url();
+	$upload_dir = wp_upload_dir()['basedir'];
+	
+	$page_content = "
+		<head>
+		<title>Image Twinning</title>
+		</head>
+		
+		<form enctype=\"multipart/form-data\" action='" . $admin_url . "admin-post.php' method=\"post\">
+		<input type='hidden' name='action' value='submit-form' />
+		<input type='hidden' name='uploads_path' value='" . $upload_dir . "/image-twinning/'>
+		<input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"1000000\" />
+		<table>
+		<tr><td>Original image*:</td><td><input type='file' name='file1'></td></tr>
+		<tr><td>Reenactment*:</td><td><input type='file' name='file2'></td></tr>
+		</table>
+		<hr>
+		<table>
+		<tr>Selection coordinates:</tr>
+		<tr><td>X:</td><td><input type='text' name='x'></td><td>Width:</td><td><input type='text' name='width'></td></tr>
+		<tr><td>Y:</td><td><input type='text' name='y'></td><td>Height:</td><td><input type='text' name='height'></td></tr>
+		<tr><td>Thumbnail width*:</td><td><input type='text' name='th_width' value=300></td></tr>
+		</table>
+		<hr>
+		<table>
+		<tr><td>Name of painting*:</td><td><input type='text' name='txt_painting'></td></tr>
+		<tr><td>Name of artist:</td><td><input type='text' name='txt_artist'></td></tr>
+		<tr><td>Date of painting:</td><td><input type='text' name='txt_date'></td></tr>
+		<tr><td>Short URL:</td><td><input type='text' name='txt_shorturl'></td></tr> 
+		</table>
+		<hr>
+		Orientation*:<br>
+		<input type='radio' name='hv' value='Horizontal' checked>Landscape<br>
+		<input type='radio' name='hv' value='Vertical'>Portrait
+		<hr>
+		Framing*:<br>
+		<input type='radio' name='frame' value='Color Frame'>Color Frame<br>
+		<input type='radio' name='frame' value='Standard Frame'>Standard Frame<br>
+		<input type='radio' name='frame' value='Image Frame'>Image Frame<br>
+		<input type='radio' name='frame' value='No Frame' checked> No Frame<br>
+		Color code: <input type='text' name='color_code' value='#FFFFFF'><br>
+		Thickness: <input type='text' name='thickness' value='5'><br>
+		Frame Image: <input type='file' name='frame_image'><br>
+		Top right corner: <input type='file' name='top_right'><br>
+		<hr>
+		* Mandatory
+		<hr>
+		<input type='submit' value='Load'>
+		</form>";
+
+    $the_page_title = 'Image Twinning';
+    $the_page_name = 'image-twinning';
+
+    // the menu entry...
+    delete_option("my_plugin_page_title");
+    add_option("my_plugin_page_title", $the_page_title, '', 'yes');
+    // the slug...
+    delete_option("my_plugin_page_name");
+    add_option("my_plugin_page_name", $the_page_name, '', 'yes');
+    // the id...
+    delete_option("my_plugin_page_id");
+    add_option("my_plugin_page_id", '0', '', 'yes');
+
+    $the_page = get_page_by_title( $the_page_title );
+
+    if ( ! $the_page ) {
+
+        // Create post object
+        $_p = array();
+        $_p['post_title'] = $the_page_title;
+        $_p['post_content'] = $page_content;
+        $_p['post_status'] = 'publish';
+        $_p['post_type'] = 'page';
+        $_p['comment_status'] = 'closed';
+        $_p['ping_status'] = 'closed';
+        $_p['post_category'] = array(1); // the default 'Uncategorised'
+
+        // Insert the post into the database
+        $the_page_id = wp_insert_post( $_p );
+
+    }
+    else {
+        // the plugin may have been previously active and the page may just be trashed...
+
+        $the_page_id = $the_page->ID;
+
+        //make sure the page is not trashed...
+        $the_page->post_status = 'publish';
+        $the_page_id = wp_update_post( $the_page );
+
+    }
+
+    delete_option( 'my_plugin_page_id' );
+    add_option( 'my_plugin_page_id', $the_page_id );
+
 }
 
-function image_uploads() {
-?>
+function remove_page() {
 
-<head>
-<title>Image Twinning</title>
-</head>
+    global $wpdb;
 
-<!--form enctype="multipart/form-data" action=<?php //echo plugins_url('result.php', __FILE__);?> method="POST" -->
-<!--form enctype="multipart/form-data" action="result()" method="POST" -->
-<form action=<?php echo get_admin_url() . "admin-post.php"; ?> method='post'>
-<input type='hidden' name='action' value='submit-form' />
-<input type="hidden" name="uploads_path" value=<?php echo wp_upload_dir()['basedir'] . '/image-twinning/';?>>
-<table>
-<tr><td>Original image*:</td><td><input type="file" name="file1"></td></tr>
-<tr><td>Reenactment*:</td><td><input type="file" name="file2"></td></tr>
-</table>
-<hr>
-<table>
-<tr>Selection coordinates:</tr>
-<tr><td>X:</td><td><input type="text" name="x"></td><td>Width:</td><td><input type="text" name="width"></td></tr>
-<tr><td>Y:</td><td><input type="text" name="y"></td><td>Height:</td><td><input type="text" name="height"></td></tr>
-<tr><td>Thumbnail width*:</td><td><input type="text" name="th_width"></td></tr>
-</table>
-<hr>
-<table>
-<tr><td>Name of painting:</td><td><input type="text" name="txt_painting"></td></tr>
-<tr><td>Name of artist:</td><td><input type="text" name="txt_artist"></td></tr>
-<tr><td>Date of painting:</td><td><input type="text" name="txt_date"></td></tr>
-<tr><td>Short URL:</td><td><input type="text" name="txt_shorturl"></td></tr> 
-</table>
-<hr>
-Orientation*:<br>
-<input type="radio" name="hv" value="Horizontal" checked>Landscape<br>
-<input type="radio" name="hv" value="Vertical">Portrait
-<hr>
-Framing*:<br>
-<input type="radio" name="frame" value="Color Frame">Color Frame<br>
-<input type="radio" name="frame" value="Standard Frame">Standard Frame<br>
-<input type="radio" name="frame" value="Image Frame">Image Frame<br>
-<input type="radio" name="frame" value="No Frame" checked> No Frame<br>
-Color code: <input type="text" name="color_code" value="#FFFFFF"><br>
-Thickness: <input type="text" name="thickness" value="5"><br>
-Frame Image: <input type="file" name="frame_image"><br>
-Top right corner: <input type="file" name="top_right"><br>
-<hr>
-* Mandatory
-<hr>
-<input type="submit" value="Load">
-</form>
-<?php
+    $the_page_title = get_option( "my_plugin_page_title" );
+    $the_page_name = get_option( "my_plugin_page_name" );
+
+    //  the id of our page...
+    $the_page_id = get_option( 'my_plugin_page_id' );
+    if( $the_page_id ) {
+
+        wp_delete_post( $the_page_id ); // this will trash, not delete
+
+    }
+
+    delete_option("my_plugin_page_title");
+    delete_option("my_plugin_page_name");
+    delete_option("my_plugin_page_id");
+
 }
 
 function handle_form_action() {
 	$base_path = sanitize_text_field($_POST['uploads_path']);
 	update_post_meta( $post->ID, 'uploads_path', $base_path );
-	$target_path1 = $base_path . sanitize_file_name($_POST['file1']);
+	$target_path1 = $base_path . sanitize_file_name($_FILES['file1']['name']);
 	update_post_meta( $post->ID, 'file1', $target_path1 );
-	$target_path2 = $base_path . sanitize_file_name($_POST['file2']);
+	$target_path2 = $base_path . sanitize_file_name($_FILES['file2']['name']);
 	update_post_meta( $post->ID, 'file2', $target_path2 );
 	if(is_numeric($_POST['x'])){ $x = $_POST['x']; }
 	else { $x = 0; }
@@ -82,7 +148,18 @@ function handle_form_action() {
 	if(is_numeric($_POST['height'])) { $height = $_POST['height']; }
 	else { $height = 1000; }
 	if(is_numeric($_POST['th_width'])) {$th_width = $_POST['th_width'];}
-	else { $th_width = 300; }
+	else { alert("ERROR: Thumbnail width not set!"); }
+	if($_POST['txt_painting'] == '') { echo("ERROR: Provide name for painting!"); return;}
+
+	echo 'file1: ' . $_FILES['file1']['tmp_name'] . '<br>';
+	echo 'file2: ' . $_FILES['file2']['tmp_name'] . '<br>';
+	echo 'target path1: ' . $target_path1 . '<br>';
+	echo 'target path2: ' . $target_path2 . '<br>';
+	
+	print_r($_FILES);
+	
+	move_uploaded_file($_FILES['file1']['tmp_name'], $target_path1);
+	move_uploaded_file($_FILES['file2']['tmp_name'], $target_path2);
 
 	$image1 = new Imagick($target_path1);
 	$image2 = new Imagick($target_path2);
@@ -90,30 +167,30 @@ function handle_form_action() {
 	$httppath = 'http://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER['REQUEST_URI']);
 
 	$geo1 = $image1->getimagegeometry();
-	if(!($width == "" && $height == "" && $x == "" && $y == "")){
-		if($width == "")
+	if(!($width == '' && $height == '' && $x == '' && $y == '')){
+		if($width == '')
 		{$width = $geo1['width'];}
-		if($height == "")
+		if($height == '')
 		{$height = $geo1['height'];}
-		if($x == "")
+		if($x == '')
 		{$x = 0;}
-		if($y == "")
+		if($y == '')
 		{$y = 0;}
 		$image2->cropimage($width, $height, $x, $y);
 	}
 	$geo2 = $image2->getimagegeometry();
 	session_start();
-	$datedir = date("d-m-y");
+	$datedir = date('d-m-y');
 	$sessioniddir = session_id();
 
 	if(!is_dir($base_path . $datedir)) {
 		mkdir($base_path . $datedir);
 	}
-	if(!is_dir($base_path . $datedir . "/" . $sessioniddir)) {
-		mkdir($base_path . $datedir . "/" . $sessioniddir);
+	if(!is_dir($base_path . $datedir . '/' . $sessioniddir)) {
+		mkdir($base_path . $datedir . '/' . $sessioniddir);
 	}
-	$target_path3 = $base_path . $datedir . "/" . $sessioniddir . "/" . time() . "-large.jpg";
-	$resulturi = explode('wordpress', $httppath)[0] . 'wordpress' . explode('wordpress', $base_path)[1] . $datedir . "/" . $sessioniddir . "/" . time() . "-large.jpg";
+	$target_path3 = $base_path . $datedir . '/' . $sessioniddir . '/' . time() . '-large.jpg';
+	$resulturi = explode('wordpress', $httppath)[0] . 'wordpress' . explode('wordpress', $base_path)[1] . $datedir . '/' . $sessioniddir . '/' . time() . '-large.jpg';
 
 	$icol = new Imagick();
 	if($_POST['hv'] == 'Vertical') {
@@ -143,7 +220,7 @@ function handle_form_action() {
 	if($_POST['frame'] == 'Color Frame') {
 		$result->frameimage($_POST['color_code'], $_POST['thickness'], $_POST['thickness'], 5, 5);
 	} else if($_POST['frame'] == 'Standard Frame') {
-		echo "in standard frame";
+		echo 'in standard frame';
 		$result->borderimage('#000000', 2, 2); // Black
 		$result->borderimage('#A0522D', 3, 3); // Siena
 		$result->borderimage('#000000', 1, 1); // Black
@@ -151,7 +228,7 @@ function handle_form_action() {
 		$result->borderimage('#000000', 2, 2); // Black
 		$result->borderimage('#CD853F', 3, 3); // Peru
 		$result->borderimage('#000000', 1, 1); // Black
-		$frame = new Imagick("uploads/fancy_add.gif");
+		$frame = new Imagick('uploads/fancy_add.gif');
 		$result->compositeimage($frame, Imagick::COMPOSITE_OVER, 0, 0);
 		$frame->flipImage();
 		$result->compositeimage($frame, Imagick::COMPOSITE_OVER, 0, $result->getimagegeometry()['height']-48);
@@ -190,16 +267,25 @@ function handle_form_action() {
 
 	$result->writeimage($target_path3);
 	$result->resizeimage($th_width, 0, Imagick::FILTER_POINT, 1);
-	$thumbpath = $base_path . $datedir . "/" . $sessioniddir . "/" . time() . "-small.jpg";
-	$resultthumburi = explode('wordpress', $httppath)[0] . 'wordpress' . explode('wordpress', $base_path)[1] . $datedir . "/" . $sessioniddir . "/" . time() . "-small.jpg";
+	$thumbpath = $base_path . $datedir . '/' . $sessioniddir . '/' . time() . '-small.jpg';
+	$resultthumburi = explode('wordpress', $httppath)[0] . 'wordpress' . explode('wordpress', $base_path)[1] . $datedir . '/' . $sessioniddir . '/' . time() . '-small.jpg';
 	$result->writeimage($thumbpath);
+	
+	// Create post object
+	$new_post = array(
+		'post_title'    => $_POST['txt_painting'],
+		'post_content'  => '<img src='.$resulturi.'><img src='.$resultthumburi.'><br><br>' . '<a href="' . $resulturi . '">Download Twinned Image</a><br>' . '<a href="' . $resultthumburi . '">Download Twinned Thumbnail</a>',
+		'post_status'   => 'publish',
+		'post_author'   => 1,
+		'post_category' => array(8,39)
+	);
 
-	echo "<img src=$resulturi><img src=$resultthumburi><br><br>";
-	echo "Image URI: " . $resulturi . "<br>";
-	echo "Thumbnail URI: " . $resultthumburi;	
+	// Insert the post into the database
+	wp_insert_post( $new_post );	
+	header( 'Location: ' . explode('wp-admin', $httppath)[0]);
 }
 
-add_filter('the_content', 'image_uploads');
-add_action('the_post', 'change_title');
 add_action('admin_post_submit-form', 'handle_form_action');
+register_activation_hook(__FILE__,'setup_page'); 
+register_deactivation_hook( __FILE__, 'remove_page' );
 ?>
