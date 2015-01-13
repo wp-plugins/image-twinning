@@ -16,6 +16,8 @@ There are popular and funny websites nowadays supporting reenactments of famous 
 http://www.hellomagazine.com/celebrities/gallery/201207178683/celebrities-that-look-alike/6/
 You can use this Image Twinning plugin to integrate similar functionality in your applications!
 
+<img src="federer-quentin"><img src="gogh-self">
+
 Feel free to download this plugin and deploy it in your own environment. We are very interested in hearing from you, especially if you work on new ideas or scenarios for the usage of our plugin!
 
 You can also test our sample integration at http://62.218.164.176/wordpress/
