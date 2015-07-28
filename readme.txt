@@ -23,7 +23,7 @@ You can use this Image Twinning plugin to integrate similar functionality in you
 
 Feel free to download this plugin and deploy it in your own environment. We are very interested in hearing from you, especially if you work on new ideas or scenarios for the usage of our plugin!
 
-You can also test our sample integration at [Image Twinning Demo](http://ngcns-demo.ait.ac.at/wordpress).
+You can also test our sample integration at [Image Twinning Demo](http://ngcns-demo.ait.ac.at/wordpress) using the guest/guest account.
 
 Your image-twinning team.
 
