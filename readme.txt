@@ -32,7 +32,7 @@ Download the latest release of the Plugin [image-twinning version 1.0.0](https:/
 Extract the archive to wp-content folder of your wordpress installation
 
 Follow the instructions from the [Other Notes](https://wordpress.org/plugins/image-twinning/other_notes/) Section.
-The twinned images will be written as blog posts where the download links are available. See [Screenshots](https://wordpress.org/plugins/image-twinning/Screenshots/)   
+The twinned images will be written as blog posts where the download links are available. See [Screenshots](https://wordpress.org/plugins/image-twinning/screenshots/)   
 
 == Usage == 
  1. Click "Image Twinning" in the pages menu.
