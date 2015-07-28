@@ -28,7 +28,11 @@ You can also test our sample integration at [Image Twinning Demo](http://ngcns-d
 Your image-twinning team.
 
 == Installation ==
-Copy to wp-content directory.
+Download the latest release of the Plugin [image-twinning version 1.0.0](https://downloads.wordpress.org/plugin/image-twinning.zip)
+Extract the archive to wp-content folder of your wordpress installation
+
+Follow the instructions from the [Other Notes](https://wordpress.org/plugins/image-twinning/other_notes/) Section.
+The twinned images will be written as blog posts where the download links are available. See [Screenshots](https://wordpress.org/plugins/image-twinning/Screenshots/)   
 
 == Usage == 
  1. Click "Image Twinning" in the pages menu.
